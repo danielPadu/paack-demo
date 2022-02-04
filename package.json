@@ -1,0 +1,79 @@
+{
+  "name": "paackdemo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "cd android && ./gradlew clean && cd .. && react-native run-android",
+    "ios": "react-native run-ios",
+    "ios-dev": "react-native run-ios --scheme \"paackdemo.dev\"",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "dependencies": {
+    "@react-native-community/netinfo": "^7.1.9",
+    "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.4.1",
+    "@react-navigation/stack": "^6.1.1",
+    "axios": "^0.25.0",
+    "metro-config": "^0.67.0",
+    "react": "17.0.2",
+    "react-native": "0.67.2",
+    "react-native-blob-util": "^0.13.18",
+    "react-native-config": "^1.4.5",
+    "react-native-device-info": "^8.4.8",
+    "react-native-extra-dimensions-android": "^1.2.5",
+    "react-native-geolocation-service": "^5.3.0-beta.4",
+    "react-native-gesture-handler": "^2.2.0",
+    "react-native-haptic-feedback": "^1.13.0",
+    "react-native-largelist": "^3.1.0-rc.2",
+    "react-native-modal": "^13.0.0",
+    "react-native-optimized-flatlist": "^1.0.4",
+    "react-native-permissions": "^3.2.0",
+    "react-native-progress": "^5.0.0",
+    "react-native-reanimated": "^2.3.1",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.10.2",
+    "react-native-spring-scrollview": "^4.0.0-dev-0",
+    "react-native-svg": "^12.1.1",
+    "react-native-svg-transformer": "^1.0.0",
+    "react-native-ui-lib": "^6.9.0",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-persist": "^6.0.0",
+    "redux-persist-filesystem-storage": "^4.0.0",
+    "redux-thunk": "^2.4.1",
+    "rxjs": "^7.5.2",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/jest": "^26.0.23",
+    "@types/react-native": "^0.66.15",
+    "@types/react-test-renderer": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "react-test-renderer": "17.0.2",
+    "typescript": "^4.4.4"
+  },
+  "resolutions": {
+    "@types/react": "^17"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
