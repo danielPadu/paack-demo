@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from 'react-redux';
 //import {connect} from 'react-redux';
 import {loadingModalClose} from '../../../appStore/actions/modalActions';
 import {screenHeight, screenWidth} from '../../utils';
-import { useIsFocused } from '@react-navigation/native';
 
 const LoadingModal = () => {
   const {
@@ -69,16 +68,4 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
 });
-/* const mapStateToProps = store => {
-  const {theme} = store.appReducer;
-  const {
-    loadingModal: {isOpen, options},
-  } = store.modalReducer;
-  return {isOpen, options, theme};
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    modalLoadingClose: () => dispatch(modalLoadingClose()),
-  };
-}; */
-export default /* connect(mapStateToProps, mapDispatchToProps)( */ LoadingModal;
+export default LoadingModal;

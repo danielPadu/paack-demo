@@ -5,10 +5,11 @@ export type RenderFieldTypes = {
   title: string;
   value?: string;
   valueExtraStyle?: StyleProp<TextStyle>;
+  valueTestId?: string;
 };
 
 export const RenderField = (props: RenderFieldTypes) => {
-  const {title, value, valueExtraStyle} = props;
+  const {title, value, valueExtraStyle, valueTestId} = props;
   const {fieldContainer, titleContainer, titleText, valueContainer, valueText} =
     styles;
   return (
@@ -17,7 +18,9 @@ export const RenderField = (props: RenderFieldTypes) => {
         <Text style={titleText}> {title}</Text>
       </View>
       <View style={valueContainer}>
-        <Text style={[valueText, valueExtraStyle]}>{value}</Text>
+        <Text testID={valueTestId} style={[valueText, valueExtraStyle]}>
+          {value}
+        </Text>
       </View>
     </View>
   );
@@ -44,6 +47,6 @@ const styles = StyleSheet.create({
   valueText: {
     color: 'black',
     fontWeight: '600',
-    textAlign:'center'
+    textAlign: 'center',
   },
 });

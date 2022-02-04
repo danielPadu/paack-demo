@@ -146,10 +146,7 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
                     deliveryDetails?.delivery?.status !== 'delivered' && (
                       <Button
                         label="Make active"
-                        disabled={
-                          deliveryDetails?.delivery?.status === 'delivered' ||
-                          active_delivery_id?.length > 0
-                        }
+                        disabled={active_delivery_id?.length > 0}
                         onPress={onMakeActivePress}
                         style={makeActiveButtonStyle}
                         iconOnRight

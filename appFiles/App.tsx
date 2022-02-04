@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './appStore/store';
 import AppContainer from './navigation/stackNavigator';
-//import {CommonAlertModal} from './screens/common/modalComponents/CommonAlertModal';
 import LoadingModal from './UI/components/modals/LoadingModal';
 
 const App = () => {
@@ -21,7 +20,6 @@ const App = () => {
           />
           <AppContainer />
         </View>
-        {/*  <CommonAlertModal /> */}
         <LoadingModal />
       </PersistGate>
     </Provider>

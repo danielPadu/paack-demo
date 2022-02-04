@@ -9,9 +9,9 @@ import {navigationRef, isReadyRef} from './RootNavigation';
 import {useDispatch} from 'react-redux';
 import {setAppActiveScreen} from '../appStore/actions/appActions';
 export type RootStackParamList = {
-  IntroScreen: undefined;
-  DeliveriesScreen: undefined;
-  DeliveryDetailsScreen: {deliveryId: string};
+  IntroScreen: {itemId?: string};
+  DeliveriesScreen: {itemId?: string};
+  DeliveryDetailsScreen: {deliveryId?: string; itemId?: string};
 };
 const Stack = createStackNavigator();
 const defaultOptions = {
@@ -36,7 +36,7 @@ const STACK_PROPS = (props: {
 );
 
 // Gets the current screen from navigation state
-const getActiveRouteName = state => {
+const getActiveRouteName: (state: any) => string | {name: string} = state => {
   const route = state?.routes[state?.index];
   if (route?.state) {
     // Dive into nested navigators
@@ -46,8 +46,8 @@ const getActiveRouteName = state => {
 };
 
 const AppContainer = () => {
-  const previousActiveRouteRef = React.useRef();
-  const activeRouteRef = React.useRef();
+  const previousActiveRouteRef = React.useRef<string | {name: string}>();
+  const activeRouteRef = React.useRef<string | {name: string}>();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -62,27 +62,18 @@ const AppContainer = () => {
     };
   }, []);
 
-  const theme = {
-    //like this
-    colors: {
-      // background: "transparent",
-      opacity: 0.75,
-    },
-  };
   return (
     <SafeAreaProvider>
       <NavigationContainer
-        // theme={theme}
         // initialState={initialState}
         ref={navigationRef}
-        // removeClippedSubviews={false}
         onStateChange={state => {
           const previousActiveRoute = activeRouteRef.current;
           const currentRoute = getActiveRouteName(state);
-          if (previousActiveRoute !== activeRouteRef) {
+          if (previousActiveRoute !== activeRouteRef.current) {
             // console.log('NavigationContainer previousActive: -> ', previousActiveRoute);
             console.log('NavigationContainer active: -> ', currentRoute);
-            dispatch(setAppActiveScreen(currentRoute.name));
+            dispatch(setAppActiveScreen(currentRoute?.name));
           }
           // Save the current route name for later comparision
           activeRouteRef.current = currentRoute;

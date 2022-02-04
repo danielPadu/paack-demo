@@ -1,12 +1,10 @@
 // RootNavigation.js
-import {NavigationContainerRef} from '@react-navigation/native';
 import * as React from 'react';
-
+import {createNavigationContainerRef} from '@react-navigation/native';
+import {RootStackParamList} from './stackNavigator';
 export const isReadyRef = React.createRef<React.MutableRefObject<boolean>>();
 
-export const navigationRef = React.createRef<
-  NavigationContainerRef<ReactNavigation.RootParamList> | undefined
->();
+export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
 export const navigate = (name: unknown, params?: unknown) => {
   if (isReadyRef.current && navigationRef.current) {

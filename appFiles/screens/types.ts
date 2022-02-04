@@ -24,7 +24,7 @@ export type ListItem = {
     longitude: string;
   };
   delivery?: {
-    status: 'idle' | 'delivered' | 'undelivered';
+    status?: 'idle' | 'delivered' | 'undelivered';
     latitude: number;
     longitude: number;
   };

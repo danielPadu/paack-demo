@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
+import {useIsFocused} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
-  Keyboard,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -13,7 +13,6 @@ import {Card} from 'react-native-ui-lib';
 import {first} from 'rxjs/operators';
 import {getDeliveriesList} from '../services/rest/deliveryService';
 import {isIOS, log} from '../UI/utils';
-import {useIsFocused} from '@react-navigation/native';
 import {DeliveryScreenProps, ListItem} from './types';
 
 const DeliveriesScreen = ({navigation}: DeliveryScreenProps) => {

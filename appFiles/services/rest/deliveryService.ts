@@ -7,7 +7,7 @@ export const getDeliveriesList = () => {
     ...api.delivery.getDeliveriesList(),
     handlerEnabled: true,
   };
-console.log('request to: ',config.url)
+
   return new Observable(subscriber => {
     axiosInstance(config)
       .then(response => {

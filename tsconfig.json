@@ -58,7 +58,16 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
+  "include": [
+    ".eslintrc.js",
+    "appFiles/**/*",
+    "__tests__/*",
+    "index.js",
+    "babel.config.js",
+    "metro.config.js",
+    "jestSetupFile.js"
+  ],
   "exclude": [
-    "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"
+    "node_modules", "babel.config.js", "metro.config.js", "jestSetupFile.js"
   ]
 }
