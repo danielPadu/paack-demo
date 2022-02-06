@@ -1,25 +1,72 @@
 import React from 'react';
-import {waitFor} from 'react-native-testing-library';
-import renderer, {act, ReactTestRendererJSON} from 'react-test-renderer';
+import {fireEvent, waitFor} from 'react-native-testing-library';
+import renderer, {
+  act,
+  ReactTestRenderer,
+  ReactTestRendererJSON,
+} from 'react-test-renderer';
 import IntroScreen from '../appFiles/screens/IntroScreen';
+import {log} from '../appFiles/UI/utils';
 import {ComponentWrappers, mockedStore} from '../__mocks__/ComponentWrappers';
+let store;
+let component:
+  | ReactTestRenderer
+  | ReactTestRenderer[]
+  | ReactTestRendererJSON
+  | ReactTestRendererJSON[]
+  | null;
 
-test('IntroScreen renders correctly', async () => {
-  await act(async () => {
-    let store;
-    let component: ReactTestRendererJSON | ReactTestRendererJSON[] | null;
-    await beforeEach(async () => {
-      store = mockedStore;
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: () => ({app_allow_geolocation: true, last_location: {}}),
+  useDispatch: () => jest.fn(),
+}));
 
-      component = renderer
-        .create(
+describe('checking IntroScreen component', () => {
+  it('IntroScreen renders ', async () => {
+    await act(async () => {
+      await beforeEach(() => {
+        store = mockedStore;
+
+        component = renderer.create(
           <ComponentWrappers redux_store={store}>
             <IntroScreen />
           </ComponentWrappers>,
-        )
-        .toJSON();
-      await waitFor(() => expect(component).toMatchSnapshot());
-      // expect(component).toMatchSnapshot();
+        );
+      });
+      await afterEach(() => {
+        // cleanup on exiting
+        component?.remove?.();
+        component = null;
+      });
+      expect(component).toMatchSnapshot();
+    });
+  });
+
+  test('IntroScreen inner functionallity tests', async () => {
+    await act(async () => {
+      await beforeEach(async () => {
+        store = mockedStore;
+
+        component = renderer.create(
+          <ComponentWrappers redux_store={store}>
+            <IntroScreen />
+          </ComponentWrappers>,
+        );
+        const {getByTestId} = component;
+        const mockedHandler = jest.fn();
+        const button = getByTestId('checkPermissionsButton');
+        button.props.onPress = mockedHandler;
+        fireEvent.press(button);
+        await waitFor(() => expect(mockedHandler).toHaveBeenCalled());
+        await waitFor(() => expect(component).toHaveProperty('netinfo'));
+        await waitFor(() => expect(component.netinfo.exists()).toBe(true));
+      });
+      await afterEach(() => {
+        // cleanup on exiting
+        component?.remove?.();
+        component = null;
+      });
     });
   });
 });

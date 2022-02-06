@@ -10,4 +10,5 @@ export default {
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
   },
+  fetch: jest.fn(),
 };

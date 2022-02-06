@@ -23,7 +23,6 @@ export const getDeliveriesList = () => {
 export const getDeliveryDetails = (deliveryId: string) => {
   const config = {
     ...api.delivery.getDeliveryDetails(deliveryId),
-    handlerEnabled: true,
   };
 
   return new Observable(subscriber => {
@@ -48,7 +47,7 @@ export const updateDeliveryState = (
     };
   },
 ) => {
-  var data = JSON.stringify(payload);
+  const data = JSON.stringify(payload);
   const config = {
     ...api.delivery.updateDeliveryState(deliveryId),
     handlerEnabled: true,

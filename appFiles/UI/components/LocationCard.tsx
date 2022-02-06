@@ -108,6 +108,7 @@ export const LocationCard = () => {
 
           <View style={refreshButtonContainer}>
             <Button
+              testID={'refreshLocationButton'}
               label="Refresh location"
               disabled={refreshingLoading === true}
               onPress={onRefreshLocationPress}

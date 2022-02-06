@@ -7,14 +7,15 @@ import React from 'react';
 import App from '../App';
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
-import {act} from 'react-test-renderer';
-// it('renders correctly', () => {
-//   renderer.create(<App />);
-// });
+import renderer, {act} from 'react-test-renderer';
+import {waitFor} from 'react-native-testing-library';
+it('App renders correctly', () => {
+  const rendered = renderer.create(<App />).toJSON();
+  expect(rendered).toBeTruthy();
+});
 
-it('App renders correctly', async () => {
+it('App renders ', async () => {
   await act(async () => {
-    renderer.create(<App />);
+    await waitFor(() => renderer.create(<App />));
   });
 });

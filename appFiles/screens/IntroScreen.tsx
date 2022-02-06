@@ -20,7 +20,7 @@ const IntroScreen = () => {
   const {getLocation} = useLocation();
   useLayoutEffect(() => {
     if (isFocused) {
-      NetworkUtils().then((res: any) => {
+      NetworkUtils()?.then((res: any) => {
         log({'NetworkUtils: ': res});
         if (res.isInternetReachable === false) {
           dispatch(
@@ -79,6 +79,7 @@ const IntroScreen = () => {
                 marginH-10
               />
               <Button
+                testID={'checkPermissionsButton'}
                 label={
                   checkingPermissions ? 'Processing' : 'Navigate to deliveries'
                 }

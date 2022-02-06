@@ -1,6 +1,6 @@
 import {NavigationContext} from '@react-navigation/native';
 import React from 'react';
-import {Provider} from 'react-redux';
+import {Provider} from 'react-redux/src';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor} from '../appFiles/appStore/store';
 import thunk from 'redux-thunk';
@@ -30,12 +30,14 @@ export const ComponentWrappers = (props: {
   const {children, redux_store} = props;
 
   return (
-    <Provider store={redux_store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContext.Provider value={navContext as any}>
-          {children}
-        </NavigationContext.Provider>
-      </PersistGate>
-    </Provider>
+    <>
+      <Provider store={redux_store ?? mockedStore}>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContext.Provider value={navContext as any}>
+            {children}
+          </NavigationContext.Provider>
+        </PersistGate>
+      </Provider>
+    </>
   );
 };

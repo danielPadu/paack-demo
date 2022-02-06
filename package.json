@@ -83,10 +83,10 @@
     "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    },
+    }, 
     "transformIgnorePatterns": [
       "node_modules/?!(react-native-ui-lib)"
-    ],
+        ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
     ],

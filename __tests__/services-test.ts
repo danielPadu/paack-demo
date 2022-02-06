@@ -1,9 +1,16 @@
 import {Method} from 'axios';
 import Config from 'react-native-config';
 import {api} from '../appFiles/services/rest/api';
-import {log} from '../appFiles/UI/utils';
-
-describe('checking api defnition', () => {
+import {
+  axiosInstance,
+  requestHandler,
+} from '../appFiles/services/rest/axiosInstance';
+import {
+  getDeliveriesList,
+  getDeliveryDetails,
+  updateDeliveryState,
+} from '../appFiles/services/rest/deliveryService';
+describe('checking api definition', () => {
   const deliveryService = {
     getDeliveriesList: () => ({
       method: 'get' as Method,
@@ -46,5 +53,108 @@ describe('checking api defnition', () => {
     expect(api.delivery.updateDeliveryState('3').method).toEqual(
       'put' as Method,
     );
+  });
+});
+describe('checking axiosInstance declaration', () => {
+  test('axiosInstance has request and response interceptors', () => {
+    expect(axiosInstance.interceptors.request).toHaveProperty('handlers');
+    expect(axiosInstance.interceptors.response).toHaveProperty('handlers');
+  });
+  test('axiosInstance has request interceptor handler fullfiled', () => {
+    expect(
+      axiosInstance.interceptors.request?.handlers[0].fulfilled,
+    ).not.toBeUndefined();
+  });
+  test('axiosInstance has request interceptor handler rejected undefined', () => {
+    expect(
+      axiosInstance.interceptors.request?.handlers[0].rejected,
+    ).toBeUndefined();
+  });
+
+  test('axiosInstance has response succes interceptor handler', () => {
+    expect(
+      axiosInstance.interceptors.response?.handlers[0].fulfilled,
+    ).not.toBeUndefined();
+  });
+  test('axiosInstance has response error interceptor handler', () => {
+    expect(
+      axiosInstance.interceptors.response?.handlers[0].rejected,
+    ).not.toBeUndefined();
+  });
+
+  test('axiosInstance returns error', done => {
+    getDeliveryDetails('0').subscribe({
+      error: error => {
+        expect(requestHandler(error.config)).toEqual(error.config);
+        done();
+      },
+    });
+  });
+});
+
+describe('checking delivery Service integration', () => {
+  test('getDeliveriesList returns array', done => {
+    getDeliveriesList().subscribe({
+      next: data => {
+        expect(data.length).toBeDefined();
+        done();
+      },
+      error: error => {
+        expect(error).toBeDefined();
+        done();
+      },
+    });
+  });
+  test('getDeliveryDetails(1) returns object with id=1', done => {
+    getDeliveryDetails('1').subscribe({
+      next: data => {
+        expect(data.id).toEqual('1');
+        done();
+      },
+      error: error => {
+        expect(error).toBeDefined();
+        done();
+      },
+    });
+  });
+  test('getDeliveryDetails(0) returns error.response.data = Not found', done => {
+    getDeliveryDetails('0').subscribe({
+      next: data => {
+        expect(data.id).toEqual('1');
+        done();
+      },
+      error: error => {
+        expect(error.response.data).toEqual('Not found');
+        done();
+      },
+    });
+  });
+  test('updateDeliveryState(1, payload) sets status idle for id 1', done => {
+    const payload = {
+      delivery: {
+        status: 'idle',
+        latitude: null,
+        longitude: null,
+      },
+    };
+    updateDeliveryState('1', payload).subscribe({
+      next: data => {
+        expect(data.delivery.status).toEqual('idle');
+        done();
+      },
+      error: error => {
+        expect(error).toBeDefined();
+        done();
+      },
+    });
+  });
+  test('updateDeliveryState(0,{ }) returns error', done => {
+    updateDeliveryState('0', {}).subscribe({
+      error: error => {
+        expect(requestHandler(error.config)).toEqual(error.config);
+        expect(error).toBeDefined();
+        done();
+      },
+    });
   });
 });

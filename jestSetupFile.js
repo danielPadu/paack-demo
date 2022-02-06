@@ -6,7 +6,7 @@ import mockPermissions from 'react-native-permissions/mock';
 import mockRNDeviceInfo from 'react-native-device-info/jest/react-native-device-info-mock';
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js';
 import {useSelector, useDispatch} from 'react-redux';
-
+import {defaultReducer} from './appFiles/appStore/reducers/default/index';
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
@@ -31,22 +31,17 @@ jest.mock('react-native-permissions', () => {
 jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo);
 
 jest.doMock('react-native-device-info', () => mockRNDeviceInfo);
-// jest.mock('react-native-device-info', () => {
-//   return {
-//     __esModule: true,
-//     default: jest.fn(() => {}),
-//   };
-// });
-
-// jest.mock('react-native-device-info', () => {
-//   return {
-//     getModel: jest.fn(),
-//     getVersion: jest.fn(),
-//     getBuildNumber: jest.fn(),
-//     getBundleId: jest.fn(),
-//     hasNotch: jest.fn(),
-//   };
-// });
+jest.mock('redux-persist/integration/react', () => ({
+  PersistGate: props => props.children,
+}));
+jest.mock('react-redux', () => {
+  const store = {
+    ...defaultReducer,
+  };
+  return {
+    useSelector: jest.fn().mockImplementation(func => func(store)),
+  };
+});
 jest.mock('react-native-safe-area-context', () => mockSafeAreaContext).default;
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');

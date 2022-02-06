@@ -9,7 +9,7 @@ const isHandlerEnabled = (config: AxiosRequestConfig) => {
 };
 
 /** request interceptor */
-const requestHandler = (requestConfig: AxiosRequestConfig) => {
+export const requestHandler = (requestConfig: AxiosRequestConfig) => {
   if (isHandlerEnabled(requestConfig)) {
     /**  Modify request here by changing headers or payload * /
            /*
