@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 import * as Progress from 'react-native-progress';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useDispatch, useSelector} from 'react-redux';
-//import {connect} from 'react-redux';
 import {loadingModalClose} from '../../../appStore/actions/modalActions';
 import {screenHeight, screenWidth} from '../../utils';
 
@@ -26,9 +26,8 @@ const LoadingModal = () => {
       animationOut="fadeOut"
       animationInTiming={400}
       propagateSwipe={true}
-      //transparent={true}
       isVisible={isOpen}
-      backdropColor={'#75747452'}
+      backdropColor={Colors.secondaryBackdropColor}
       onBackdropPress={() => modalClosing()}
       style={modalStyle}
       deviceWidth={screenWidth}
@@ -39,7 +38,6 @@ const LoadingModal = () => {
           indeterminate={true}
           borderWidth={10}
           borderColor={'gray'}
-          //endAngle={0.75}
           thickness={5}
           strokeCap={'round'}
           fill={'transparent'}

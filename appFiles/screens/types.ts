@@ -1,31 +1,30 @@
-import type {RootStackParamList} from '../navigation/stackNavigator';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-export type DeliveryScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'DeliveriesScreen'
->;
-export type DeliveryDetailsScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'DeliveryDetailsScreen'
->;
-export type IntroScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'IntroScreen'
->;
-export type ListItem = {
+ 
+export type CustomerTypes = {
+  name?: string|null;
+  address?: string|null;
+  city?: string|null;
+  zipCode?: string|null;
+  latitude?: string|null;
+  longitude?: string|null;
+}
+export type DeliveryTypes = {
+  status?: 'idle' | 'delivered' | 'undelivered';
+  latitude: number;
+  longitude: number;
+}
+export type DeliveryListItemTypes
+ = {
   id: string;
   client: string;
-  customer?: {
-    name: string;
-    address: string;
-    city: string;
-    zipCode: string;
-    latitude: string;
-    longitude: string;
-  };
-  delivery?: {
-    status?: 'idle' | 'delivered' | 'undelivered';
-    latitude: number;
-    longitude: number;
-  };
+  customer?: CustomerTypes;
+  delivery?: DeliveryTypes;
+};
+export type Capitalizer<Type> = {
+  [Property in keyof Type as `${Capitalize<string & Property>}`]: () => Type[Property]
+};
+export type Concrete<Type> = {
+  [Property in keyof Type]-?: Type[Property];
+};
+export type CreateMutable<Type> = {
+  -readonly [Property in keyof Type]: Type[Property];
 };

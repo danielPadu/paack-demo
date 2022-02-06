@@ -74,12 +74,24 @@ const ListenOrientationChangeHook = () => {
 
   return {orientation};
 };
+
+/**
+ * Uppercasing first character of string
+ * @param  {string} stringValue   
+ */
+const capitalizeString = (stringValue: string) => {
+  if (typeof stringValue === 'string' && stringValue?.trim()?.length > 0) {
+      return stringValue?.trim()?.charAt(0)?.toUpperCase() + stringValue?.trim()?.slice(1)
+  }
+  return stringValue;
+}
 const NetworkUtils = () => NetInfo.fetch().then(response => response);
 export {
   screenWidth,
   screenHeight,
   hasNotch,
   isIOS,
+  capitalizeString,
   NetworkUtils,
   log,
   widthPercentageToDP as wp,

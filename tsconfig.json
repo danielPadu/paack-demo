@@ -68,6 +68,6 @@
     "jestSetupFile.js"
   ],
   "exclude": [
-    "node_modules", "babel.config.js", "metro.config.js", "jestSetupFile.js"
+    "node_modules", "babel.config.js", "metro.config.js"  
   ]
 }

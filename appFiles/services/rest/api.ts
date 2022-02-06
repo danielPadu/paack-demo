@@ -1,7 +1,8 @@
 import Config from 'react-native-config';
 import type {Method} from 'axios';
+import {log} from '../../UI/utils';
 
-console.log('rect-native-config: ', Config);
+log({'rect-native-config': Config});
 export const api = {
   delivery: {
     getDeliveriesList: () => ({

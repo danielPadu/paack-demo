@@ -1,41 +1,24 @@
 import React from 'react';
-import renderer, {act} from 'react-test-renderer';
-import configureStore from 'redux-mock-store';
+import {waitFor} from 'react-native-testing-library';
+import renderer, {act, ReactTestRendererJSON} from 'react-test-renderer';
 import {RenderField} from '../appFiles/UI/components/RenderField';
-import {ComponentWrappers} from '../__mocks__/ComponentWrappers';
-
-const mockStore = configureStore([]);
+import {ComponentWrappers, mockedStore} from '../__mocks__/ComponentWrappers';
 
 test('RenderField renders correctly', async () => {
   await act(async () => {
     let store;
-    let component;
-    beforeEach(() => {
-      store = mockStore({
-        appReducer: {
-          app_allow_geolocation: false,
-          active_delivery_id: '',
-          active_scren: '',
-          last_location: {
-            accuracy: 0,
-            altitude: 0,
-            altitudeAccuracy: 0,
-            heading: 0,
-            latitude: 0,
-            longitude: 0,
-            speed: 0,
-          },
-        },
-      });
+    let component: ReactTestRendererJSON | ReactTestRendererJSON[] | null;
+    await beforeEach(async () => {
+      store = mockedStore;
 
       component = renderer
         .create(
           <ComponentWrappers redux_store={store}>
-            <RenderField />
+            <RenderField title={'Field title'} />
           </ComponentWrappers>,
         )
         .toJSON();
-      expect(component).toMatchSnapshot();
+      await waitFor(() => expect(component).toMatchSnapshot());
     });
   });
 });

@@ -5,7 +5,7 @@ import {
   INFO_MODAL_CLOSE,
 } from '../actions/actionTypes';
 import {defaultReducer} from './default';
-export type PayloadType = {isOpen: boolean; options: unknown};
+export type PayloadType = {title: string; description: string};
 export default (
   state = defaultReducer.modalReducer,
   action: {
@@ -29,8 +29,8 @@ export default (
       return {
         ...state,
         infoModal: {
-          isOpen: action?.payload?.isOpen,
-          options: action?.payload?.options,
+          isOpen: true,
+          options: action?.payload,
         },
       };
 
@@ -44,5 +44,3 @@ export default (
       return state;
   }
 };
-
-export const getModalReducer = (state: any) => state.modalReducer;

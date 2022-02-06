@@ -3,6 +3,13 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor} from '../appFiles/appStore/store';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import {defaultReducer} from '../appFiles/appStore/reducers/default';
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+export const mockedStore = mockStore(defaultReducer);
 
 export const navContext = {
   isFocused: () => true,

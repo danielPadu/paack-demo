@@ -4,27 +4,9 @@ import {fireEvent, render, mount, waitFor} from 'react-native-testing-library';
 import renderer, {act} from 'react-test-renderer';
 import configureStore from 'redux-mock-store';
 import {LocationCard} from '../appFiles/UI/components/LocationCard';
-import {ComponentWrappers} from '../__mocks__/ComponentWrappers';
+import {ComponentWrappers, mockedStore} from '../__mocks__/ComponentWrappers';
 
-const mockStore = configureStore([]);
-const ms = mockStore([
-  {
-    appReducer: {
-      app_allow_geolocation: false,
-      active_delivery_id: '',
-      active_scren: '',
-      last_location: {
-        accuracy: 0,
-        altitude: 0,
-        altitudeAccuracy: 0,
-        heading: 0,
-        latitude: 0,
-        longitude: 0,
-        speed: 0,
-      },
-    },
-  },
-]);
+const ms = mockedStore;
 // test('renders correctly', async () => {
 //   await act(async () => {
 //     let store;
@@ -91,25 +73,8 @@ test('LocationCard button press actions', async () => {
   await act(async () => {
     let store;
     let component;
-    beforeEach(async () => {
-      store = mockStore([
-        {
-          appReducer: {
-            app_allow_geolocation: false,
-            active_delivery_id: '',
-            active_scren: '',
-            last_location: {
-              accuracy: 0,
-              altitude: 0,
-              altitudeAccuracy: 0,
-              heading: 0,
-              latitude: 0,
-              longitude: 0,
-              speed: 0,
-            },
-          },
-        },
-      ]);
+    await beforeEach(async () => {
+      store = mockedStore;
       component = render(
         <ComponentWrappers redux_store={store}>
           <LocationCard />

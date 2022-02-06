@@ -4,22 +4,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {IntroScreen, DeliveriesScreen, DeliveryDetailsScreen} from '../screens';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {navigationRef, isReadyRef} from './RootNavigation';
+import {navigationRef} from './RootNavigation';
 //import MembershipActiveScreen from '../screens/components/MembershipActiveScreen';
 import {useDispatch} from 'react-redux';
 import {setAppActiveScreen} from '../appStore/actions/appActions';
-export type RootStackParamList = {
-  IntroScreen: {itemId?: string};
-  DeliveriesScreen: {itemId?: string};
-  DeliveryDetailsScreen: {deliveryId?: string; itemId?: string};
-};
 const Stack = createStackNavigator();
 const defaultOptions = {
   animationEnabled: false,
   swipeEnabled: false,
 };
 const STACK_PROPS = (props: {
-  initialRouteName: string;
+  initialRouteName?: string;
   children: React.ReactNode | React.ReactNode[];
 }) => (
   <Stack.Navigator
@@ -36,7 +31,7 @@ const STACK_PROPS = (props: {
 );
 
 // Gets the current screen from navigation state
-const getActiveRouteName: (state: any) => string | {name: string} = state => {
+const getActiveRouteName: (state: any) => any = state => {
   const route = state?.routes[state?.index];
   if (route?.state) {
     // Dive into nested navigators
@@ -51,27 +46,21 @@ const AppContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //  const { removeOnNotificationOpened, removeOnNotification, removeOnTokenRefresh } = onlySetTheListners(); // set listners for FCM and detach them when app closes
     const state = navigationRef.current?.getRootState();
     activeRouteRef.current = getActiveRouteName(state); // Save the initial route name
     return () => {
       console.log('AppContainer unmounted');
-      if (isReadyRef?.current) {
-        (isReadyRef.current as React.MutableRefObject<boolean>).current = false;
-      }
     };
   }, []);
 
   return (
     <SafeAreaProvider>
       <NavigationContainer
-        // initialState={initialState}
         ref={navigationRef}
         onStateChange={state => {
           const previousActiveRoute = activeRouteRef.current;
           const currentRoute = getActiveRouteName(state);
           if (previousActiveRoute !== activeRouteRef.current) {
-            // console.log('NavigationContainer previousActive: -> ', previousActiveRoute);
             console.log('NavigationContainer active: -> ', currentRoute);
             dispatch(setAppActiveScreen(currentRoute?.name));
           }
@@ -79,12 +68,7 @@ const AppContainer = () => {
           activeRouteRef.current = currentRoute;
           previousActiveRouteRef.current = previousActiveRoute;
         }}
-        onReady={() => {
-          if (isReadyRef?.current) {
-            (isReadyRef?.current as React.MutableRefObject<boolean>).current =
-              true;
-          }
-        }}>
+        onReady={() => {}}>
         <STACK_PROPS initialRouteName="IntroScreen">
           <Stack.Screen
             name="IntroScreen"
