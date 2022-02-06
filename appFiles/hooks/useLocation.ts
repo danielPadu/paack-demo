@@ -7,7 +7,7 @@ import {
   LocationPayloadType,
   setAllowGeolocation,
 } from '../appStore/actions/appActions';
-import {useDispatch} from 'react-redux';
+import {ResolveArrayThunks, useDispatch} from 'react-redux';
 
 const useLocation = (currentPosition?: any) => {
   const [location, setLocation] = useState(currentPosition);
@@ -18,7 +18,7 @@ const useLocation = (currentPosition?: any) => {
 
   useEffect(() => {
     getLocation();
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -98,38 +98,41 @@ const useLocation = (currentPosition?: any) => {
     }
     return false;
   };
+  type GetLocationType = () => Promise<'granted' | 'blocked'>;
+  const getLocation: GetLocationType = () =>
+    new Promise(async (resolve, reject) => {
+      const hasPermission = await isPermissionGranted();
 
-  const getLocation = async () => {
-    const hasPermission = await isPermissionGranted();
-
-    if (!hasPermission) {
-      setPermissionResult('blocked');
-      dispatch(setAllowGeolocation(false));
-      return;
-    }
-
-    Geolocation.getCurrentPosition(
-      (position: GeoPosition) => {
-        setLocation(position.coords);
-        dispatch(setLastLocation(position.coords as LocationPayloadType));
-        dispatch(setAllowGeolocation(true));
-        setPermissionResult('granted');
-      },
-      () => {
+      if (!hasPermission) {
         setPermissionResult('blocked');
-      },
-      {
-        accuracy: {
-          android: 'high',
-          ios: 'best',
+        dispatch(setAllowGeolocation(false));
+        reject('blocked');
+      }
+
+      Geolocation.getCurrentPosition(
+        (position: GeoPosition) => {
+          setLocation(position.coords);
+          dispatch(setLastLocation(position.coords as LocationPayloadType));
+          dispatch(setAllowGeolocation(true));
+          setPermissionResult('granted');
+          resolve('granted');
         },
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 10000,
-        distanceFilter: 0,
-      },
-    );
-  };
+        () => {
+          setPermissionResult('blocked');
+          reject('blocked');
+        },
+        {
+          accuracy: {
+            android: 'high',
+            ios: 'best',
+          },
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+          distanceFilter: 0,
+        },
+      );
+    });
 
   return {
     location,

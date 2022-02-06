@@ -24,6 +24,7 @@ export const setAppActiveScreen =
 
 export type LocationPayloadType =
   typeof defaultReducer.appReducer.last_location;
+
 export const setLastLocation =
   (lastLocation: LocationPayloadType) => (dispatch: AppDispatch) =>
     dispatch({type: SET_LAST_LOCATION, payload: lastLocation});

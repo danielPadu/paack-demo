@@ -14,7 +14,7 @@ const log = (obj: unknown) =>
     }),
   );
 
-const hasNotch = DeviceInfo.hasNotch();
+const hasNotch = DeviceInfo?.hasNotch();
 const isIOS = Platform.OS === 'ios';
 let screenWidth = Dimensions.get('window').width;
 let screenHeight =
@@ -39,7 +39,7 @@ const heightPercentageToDP = (hp: number | string) => {
   // size (dp) to the nearest one that correspons to an integer number of pixels.
   return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
 };
-let aspectRatio = heightPercentageToDP('100%') / widthPercentageToDP('100%');
+const aspectRatio = heightPercentageToDP('100%') / widthPercentageToDP('100%');
 
 /**
  * Event listener function that detects orientation change (every time it occurs) and triggers
@@ -74,12 +74,30 @@ const ListenOrientationChangeHook = () => {
 
   return {orientation};
 };
-const NetworkUtils = () => NetInfo.fetch().then(response => response);
+
+/**
+ * Uppercasing first character of string
+ * @param  {string} stringValue
+ */
+const capitalizeString = (stringValue: string) => {
+  if (typeof stringValue === 'string' && stringValue?.trim()?.length > 0) {
+    return (
+      stringValue?.trim()?.charAt(0)?.toUpperCase() +
+      stringValue?.trim()?.slice(1)
+    );
+  }
+  return stringValue;
+};
+const NetworkUtils = () =>
+  NetInfo?.fetch?.()
+    ?.then(response => response)
+    ?.catch(err => err);
 export {
   screenWidth,
   screenHeight,
   hasNotch,
   isIOS,
+  capitalizeString,
   NetworkUtils,
   log,
   widthPercentageToDP as wp,

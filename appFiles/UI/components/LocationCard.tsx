@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   ActivityIndicator,
   StyleProp,
@@ -7,10 +7,10 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import { Button, Card, Colors } from 'react-native-ui-lib';
-import { useSelector } from 'react-redux';
+import {Button, Card, Colors} from 'react-native-ui-lib';
+import {useSelector} from 'react-redux';
 import useLocation from '../../hooks/useLocation';
-import { RenderField } from './RenderField';
+import {RenderField} from './RenderField';
 
 Colors.loadColors({
   primaryColor: '#2364AA',
@@ -22,10 +22,10 @@ Colors.loadColors({
 });
 
 export const LocationCard = () => {
-  const { app_allow_geolocation, last_location } = useSelector(
+  const {app_allow_geolocation, last_location} = useSelector(
     (state: any) => state.appReducer,
   );
-  const { getLocation } = useLocation();
+  const {getLocation} = useLocation();
   const {
     cardContainer,
     cardTitleContainer,
@@ -45,9 +45,10 @@ export const LocationCard = () => {
   });
 
   const makeActiveLoadingIndicator = useCallback(() => {
-    const { refreshButtonLoadingStyle } = styles;
+    const {refreshButtonLoadingStyle} = styles;
     return refreshingLoading ? (
       <ActivityIndicator
+        testID="activity-indicator"
         style={refreshButtonLoadingStyle}
         size="small"
         color="#0000ff"
@@ -93,11 +94,13 @@ export const LocationCard = () => {
           <RenderField title={'Speed: '} value={`${last_location?.speed} `} />
 
           <RenderField
+            valueTestId={'latitude-value'}
             title={'Latitude: '}
             value={`${last_location?.latitude} `}
             valueExtraStyle={getCoordsColor() as StyleProp<TextStyle>}
           />
           <RenderField
+            valueTestId={'longitude-value'}
             title={'Longitude: '}
             value={`${last_location?.longitude} `}
             valueExtraStyle={getCoordsColor() as StyleProp<TextStyle>}
@@ -105,6 +108,7 @@ export const LocationCard = () => {
 
           <View style={refreshButtonContainer}>
             <Button
+              testID={'refreshLocationButton'}
               label="Refresh location"
               disabled={refreshingLoading === true}
               onPress={onRefreshLocationPress}
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
   },
-  refreshButtonLoadingStyle: { marginLeft: 10 },
+  refreshButtonLoadingStyle: {marginLeft: 10},
 
   cardStyle: {
     flex: 1,

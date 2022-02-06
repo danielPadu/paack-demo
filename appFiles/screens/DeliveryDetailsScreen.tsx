@@ -9,28 +9,21 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import {RenderField} from '../UI/components/RenderField';
-import {Colors, Card, Button} from 'react-native-ui-lib';
+import {Button, Card} from 'react-native-ui-lib';
 import {useDispatch, useSelector} from 'react-redux';
-
-Colors.loadColors({
-  primaryColor: '#2364AA',
-  secondaryColor: '#81C3D7',
-  textColor: '#221D23',
-  errorColor: '#E63B2E',
-  successColor: '#ADC76F',
-  warnColor: '#FF963C',
-});
 import {first} from 'rxjs/operators';
 import {setAppActiveDeliveryID} from '../appStore/actions/appActions';
+import useLocation from '../hooks/useLocation';
+import type {DeliveryDetailsScreenProps} from '../navigation/RootNavigation';
 import {
   getDeliveryDetails,
   updateDeliveryState,
 } from '../services/rest/deliveryService';
-import {isIOS, log} from '../UI/utils';
 import {LocationCard} from '../UI/components';
-import useLocation from '../hooks/useLocation';
-import type {DeliveryDetailsScreenProps, ListItem} from './types';
+import {activityIndicator} from '../UI/components/buttonsActivityIndicator';
+import {RenderField, RenderFieldTypes} from '../UI/components/RenderField';
+import {capitalizeString, isIOS, log} from '../UI/utils';
+import {DeliveryListItemTypes} from './types';
 
 const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
   const {deliveryId} = route.params;
@@ -40,6 +33,7 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
   const {
     wrapperStyle,
     containerStyle,
+    pageTitleContainer,
     pageTitleStyle,
     activeDeliveryText,
     cardContainer,
@@ -53,26 +47,41 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
     changeStatusButtonStyle,
     changeStatusButtonLabelStyle,
   } = styles;
-
-  const [deliveryDetails, setDeliveryDetails] = useState<ListItem | null>(null);
+  const [deliveryDetails, setDeliveryDetails] =
+    useState<DeliveryListItemTypes | null>(null);
+  const [customerInfo, setCustomerInfo] = useState<
+    {title?: string; value?: string}[]
+  >([]);
+  const [apiRequest, setApiRequest] = useState(false);
+  const settingApiReq = (val: boolean) => setApiRequest(val);
+  const [showLocation, setShowLocation] = useState(false);
   const [makeActiveLoading, setMakeActiveLoading] = useState(false);
   useEffect(() => {
     log({receivedId: deliveryId});
     if (deliveryId) {
+      settingApiReq(true);
       getDeliveryDetails(deliveryId)
         .pipe(first())
         .subscribe({
           next: (data: any) => {
             log({data: data});
             setDeliveryDetails(data);
+            const arrayData: {title: string; value: string}[] = [];
+            Object.entries(data.customer).forEach(([key]) => {
+              arrayData.push({
+                title: `${capitalizeString(key)} : `,
+                value: data.customer[key],
+              });
+            });
+            setCustomerInfo(arrayData);
+            settingApiReq(false);
           },
-          error: error => {
-            log({error: error});
+          error: () => {
+            settingApiReq(false);
           },
         });
     }
   }, [deliveryId]);
-  useEffect(() => {}, [deliveryDetails?.id, active_delivery_id]);
   const getStatusColor = (value?: 'idle' | 'delivered' | 'undelivered') => ({
     color:
       value === 'delivered' ? 'green' : value === 'idle' ? 'orange' : 'red',
@@ -102,6 +111,7 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
     (status: 'delivered' | 'undelivered') => {
       const {latitude, longitude} = location;
       if (deliveryDetails?.id) {
+        settingApiReq(true);
         updateDeliveryState(deliveryDetails.id, {
           delivery: {
             status: status,
@@ -112,26 +122,44 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
           .pipe(first())
           .subscribe({
             next: (data: any) => {
-              log({data});
               setDeliveryDetails(data);
               dispatch(setAppActiveDeliveryID(''));
+              settingApiReq(false);
             },
-            error: error => {
-              log({error});
+            error: () => {
+              settingApiReq(false);
             },
           });
       }
     },
     [deliveryDetails?.id, dispatch, location],
   );
+  const noDeliverYDetails = useCallback(() => {
+    return !apiRequest ? (
+      <Text style={emptyListText}>
+        {'No delivery details received at the moment'}
+      </Text>
+    ) : null;
+  }, [apiRequest, emptyListText]);
   return (
     <SafeAreaView style={wrapperStyle}>
       <View style={containerStyle}>
-        <Text style={pageTitleStyle}>{'Delivery Details Screen'}</Text>
+        <View style={pageTitleContainer}>
+          <Text style={pageTitleStyle}>{'Delivery Details Screen'}</Text>
+
+          <Button
+            label={`${showLocation ? 'Hide' : 'Show'} location`}
+            onPress={() => setShowLocation(c => !c)}
+            bg-secondaryColor
+            square
+            marginH-10
+          />
+        </View>
         <ScrollView
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled={false}>
           <View style={cardContainer}>
+            {activityIndicator(apiRequest)}
             {deliveryDetails ? (
               <Card
                 row={false}
@@ -146,10 +174,7 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
                     deliveryDetails?.delivery?.status !== 'delivered' && (
                       <Button
                         label="Make active"
-                        disabled={
-                          deliveryDetails?.delivery?.status === 'delivered' ||
-                          active_delivery_id?.length > 0
-                        }
+                        disabled={active_delivery_id?.length > 0}
                         onPress={onMakeActivePress}
                         style={makeActiveButtonStyle}
                         iconOnRight
@@ -162,30 +187,9 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
                     <Text style={activeDeliveryText}>{'Active delivery'}</Text>
                   )}
                 </View>
-                <RenderField
-                  title={'Customer name: '}
-                  value={deliveryDetails?.customer?.name}
-                />
-                <RenderField
-                  title={'Delivery address: '}
-                  value={`${deliveryDetails?.customer?.address}`}
-                />
-                <RenderField
-                  title={'Delivery city: '}
-                  value={`${deliveryDetails?.customer?.city}`}
-                />
-                <RenderField
-                  title={'Delivery zipCode: '}
-                  value={`${deliveryDetails?.customer?.zipCode}`}
-                />
-                <RenderField
-                  title={'Latitude: '}
-                  value={`${deliveryDetails?.delivery?.latitude} `}
-                />
-                <RenderField
-                  title={'Longitude: '}
-                  value={`${deliveryDetails?.delivery?.longitude} `}
-                />
+                {customerInfo?.map((i, idx) => {
+                  return <RenderField key={idx} {...(i as RenderFieldTypes)} />;
+                })}
                 <RenderField
                   title={'Status: '}
                   value={`${deliveryDetails?.delivery?.status} `}
@@ -226,12 +230,10 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
                 )}
               </Card>
             ) : (
-              <Text style={emptyListText}>
-                {'No delivery details received at the moment'}
-              </Text>
+              noDeliverYDetails()
             )}
           </View>
-          <LocationCard />
+          {showLocation && <LocationCard />}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -254,6 +256,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: isIOS ? 10 : 5,
   },
+  pageTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   pageTitleStyle: {
     textAlign: 'center',
     fontSize: 20,
@@ -269,7 +276,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 5,
+    paddingBottom: 30,
   },
   clientContainer: {
     flexDirection: 'row',

@@ -1,12 +1,23 @@
 import React from 'react';
 import {StatusBar, View, StyleSheet, Platform} from 'react-native';
+import {Colors} from 'react-native-ui-lib';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './appStore/store';
 import AppContainer from './navigation/stackNavigator';
-//import {CommonAlertModal} from './screens/common/modalComponents/CommonAlertModal';
+import InfoModal from './UI/components/modals/InfoModal';
 import LoadingModal from './UI/components/modals/LoadingModal';
 
+Colors.loadColors({
+  primaryColor: '#2364AA',
+  secondaryColor: '#81C3D7',
+  textColor: '#221D23',
+  primaryBackdropColor: '#2364aa42',
+  secondaryBackdropColor: '#81C3D742',
+  errorColor: '#E63B2E',
+  successColor: '#ADC76F',
+  warnColor: '#FF963C',
+});
 const App = () => {
   const {container} = styles;
 
@@ -21,8 +32,8 @@ const App = () => {
           />
           <AppContainer />
         </View>
-        {/*  <CommonAlertModal /> */}
         <LoadingModal />
+        <InfoModal />
       </PersistGate>
     </Provider>
   );

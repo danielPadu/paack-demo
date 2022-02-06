@@ -5,7 +5,7 @@ import {
   INFO_MODAL_CLOSE,
 } from './actionTypes';
 import {AppDispatch} from '../store';
-import type {PayloadType} from '../reducers/modalReducer';
+import {PayloadType} from '../reducers/modalReducer';
 
 export const loadingModalOpen = () => {
   return (dispatch: AppDispatch) => {
@@ -22,7 +22,7 @@ export const infoModalOpen = (data: PayloadType) => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: INFO_MODAL_OPEN,
-      payload: {isOpen: data.isOpen, options: data.options},
+      payload: data,
     });
   };
 };

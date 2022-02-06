@@ -18,7 +18,12 @@ const applicationReducer = combineReducers({
 });
 
 const RootReducer = (
-  state: CombinedState<{appReducer: never; modalReducer: never}> | undefined,
+  state:
+    | CombinedState<{
+        appReducer: typeof AppReducer;
+        modalReducer: typeof ModalReducer;
+      }>
+    | undefined,
   action:
     | {
         type: string;
