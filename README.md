@@ -49,6 +49,10 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 ![Screenshot](/__mocks__/Screenshot_2022-02-07_at_15.19.02.png)
 
 - only development mode implementations (debug.keystore)
+- [x] implemented multienvironment suport ading env files for 
+        - [x] * .env.development
+        - [ ] * .env.staging
+        - [ ] * .env.production
 - [x] implemented react navigation @6 stack navigator (referenced) in appFiles/navigation folder
 - [x] implemented 3 screens in  appFiles/screens:
     - [x] IntroScreen with network connectivity and location permissions checks
@@ -57,7 +61,7 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 - [x] implemented 2 modals components (Loading modal that blocks entire screen while active and InfoModal for outputting messages) and 2 react components in appFiles/UI/components
 - [x] implemented react-native redux with 2 reducers (appReducer and modalsReducer) and redux-persist in appFiles/appStore
 - [x] implemented rest api deliveryService in appFiles/services/res using axiosInstance with interceptors and rxjs observable for delivering only response necessary at client-side component
-- [x] implemented unit tests and wrote tests in __tests__ folder. 
+- [x] implemented unit tests and wrote ```__tests__``` in __tests__ folder. 
     For automated tests, run in root folder console/terminal :
      >```npm run test```
      >```npm run coverage -- -u```
