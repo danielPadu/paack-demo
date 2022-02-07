@@ -6,7 +6,6 @@ import renderer, {
   ReactTestRendererJSON,
 } from 'react-test-renderer';
 import IntroScreen from '../appFiles/screens/IntroScreen';
-import {log} from '../appFiles/UI/utils';
 import {ComponentWrappers, mockedStore} from '../__mocks__/ComponentWrappers';
 let store;
 let component:

@@ -9,7 +9,6 @@ import renderer, {
 import {LocationCard} from '../appFiles/UI/components/LocationCard';
 import {ComponentWrappers, mockedStore} from '../__mocks__/ComponentWrappers';
 import {defaultReducer} from '../appFiles/appStore/reducers/default';
-import {log} from '../appFiles/UI/utils';
 let store;
 let component:
   | ReactTestRenderer
@@ -85,7 +84,7 @@ jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
 }));
 describe('checking LocationCard component', () => {
-  test('LocationCard button actions', async () => {
+  test('LocationCard internal functionallities', async () => {
     await act(async () => {
       await beforeEach(async () => {
         store = mockedStore;
@@ -99,7 +98,6 @@ describe('checking LocationCard component', () => {
         const mockedHandler = jest.fn();
 
         const button = getByTestId('refreshLocationButton');
-        // log({button: button.props});
         button.props.onPress = mockedHandler;
         fireEvent.press(button);
         expect(button).toBeTruthy();
@@ -107,26 +105,18 @@ describe('checking LocationCard component', () => {
         // await waitFor(() => expect(mockedHandler).toHaveBeenCalled());
         // });
 
-        // test('activity indicator appeared ', async () => {
         await waitFor(() =>
           expect(getByTestId('activity-indicator')).toBeTruthy(),
         );
-        // });
 
-        // test('latitude value updated ', async () => {
         await waitFor(() =>
           expect(queryByTestId('longitude-value')).toBeTruthy(),
         );
-        // });
 
-        // test('longitude value updated  ', async () => {
         await waitFor(() =>
           expect(queryByTestId('longitude-value')).toBeTruthy(),
         );
-        // });
-        //  test('matches snapshot  ', async () => {
         expect(toJSON()).toMatchSnapshot();
-        //  });
       });
       await afterEach(() => {
         // cleanup on exiting

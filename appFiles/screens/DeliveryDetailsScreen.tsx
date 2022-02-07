@@ -22,7 +22,6 @@ import {
 import {LocationCard} from '../UI/components';
 import {activityIndicator} from '../UI/components/buttonsActivityIndicator';
 import {RenderField, RenderFieldTypes} from '../UI/components/RenderField';
-import {capitalizeString, isIOS, log} from '../UI/utils';
 import {DeliveryListItemTypes} from './types';
 
 const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
@@ -35,6 +34,7 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
     containerStyle,
     pageTitleContainer,
     pageTitleStyle,
+    showLocationButtonStyle,
     activeDeliveryText,
     cardContainer,
     clientContainer,
@@ -57,19 +57,17 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
   const [showLocation, setShowLocation] = useState(false);
   const [makeActiveLoading, setMakeActiveLoading] = useState(false);
   useEffect(() => {
-    log({receivedId: deliveryId});
     if (deliveryId) {
       settingApiReq(true);
       getDeliveryDetails(deliveryId)
         .pipe(first())
         .subscribe({
           next: (data: any) => {
-            log({data: data});
             setDeliveryDetails(data);
             const arrayData: {title: string; value: string}[] = [];
             Object.entries(data.customer).forEach(([key]) => {
               arrayData.push({
-                title: `${capitalizeString(key)} : `,
+                title: `${key?.charAt(0)?.toUpperCase() + key?.slice(1)} : `,
                 value: data.customer[key],
               });
             });
@@ -109,14 +107,13 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
 
   const onChangeStatusPress = useCallback(
     (status: 'delivered' | 'undelivered') => {
-      const {latitude, longitude} = location;
       if (deliveryDetails?.id) {
         settingApiReq(true);
         updateDeliveryState(deliveryDetails.id, {
           delivery: {
             status: status,
-            latitude,
-            longitude,
+            latitude: location?.latitude,
+            longitude: location?.longitude,
           },
         })
           .pipe(first())
@@ -146,15 +143,15 @@ const DeliveryDetailsScreen = ({route}: DeliveryDetailsScreenProps) => {
       <View style={containerStyle}>
         <View style={pageTitleContainer}>
           <Text style={pageTitleStyle}>{'Delivery Details Screen'}</Text>
-
-          <Button
-            label={`${showLocation ? 'Hide' : 'Show'} location`}
-            onPress={() => setShowLocation(c => !c)}
-            bg-secondaryColor
-            square
-            marginH-10
-          />
         </View>
+        <Button
+          testID={'showLocationButton'}
+          label={`${showLocation ? 'Hide' : 'Show'} device location`}
+          onPress={() => setShowLocation(c => !c)}
+          style={showLocationButtonStyle}
+          bg-secondaryColor
+          square
+        />
         <ScrollView
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled={false}>
@@ -268,6 +265,13 @@ const styles = StyleSheet.create({
     color: 'navy',
     paddingVertical: 0,
     marginVertical: 0,
+  },
+  showLocationButtonStyle: {
+    height: 40,
+    width: 200,
+
+    marginVertical: 10,
+    alignSelf: 'center',
   },
   cardContainer: {
     margin: 0,

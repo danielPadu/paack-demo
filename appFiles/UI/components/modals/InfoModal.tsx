@@ -2,10 +2,10 @@ import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
-import {Card, Colors, View} from 'react-native-ui-lib';
+import {Card, Colors} from 'react-native-ui-lib';
 import {useDispatch, useSelector} from 'react-redux';
 import {infoModalClose} from '../../../appStore/actions/modalActions';
-import {log, screenHeight, screenWidth} from '../../utils';
+import {screenHeight, screenWidth} from '../../utils';
 
 const InfoModal = () => {
   const {
@@ -14,7 +14,6 @@ const InfoModal = () => {
   const dispatch = useDispatch();
   const {title, description} = options;
   const {modalStyle, cardStyle, shadow, titleStyle, descriptionStyle} = styles;
-  log({isOpen, options});
   const modalClosing = () => {
     if (isOpen) {
       dispatch(infoModalClose());

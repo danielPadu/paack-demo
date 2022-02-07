@@ -18,7 +18,7 @@ import {
 import {navigate} from '../navigation/RootNavigation';
 import {getDeliveriesList} from '../services/rest/deliveryService';
 import {activityIndicator} from '../UI/components/buttonsActivityIndicator';
-import {isIOS, log} from '../UI/utils';
+import {isIOS} from '../UI/utils';
 import {DeliveryListItemTypes} from './types';
 
 const DeliveriesScreen = () => {
@@ -68,8 +68,8 @@ const DeliveriesScreen = () => {
   useEffect(() => {
     apiRequest ? dispatch(loadingModalOpen()) : dispatch(loadingModalClose());
   }, [apiRequest, dispatch]);
-  const onItemPressed = (item: DeliveryListItemTypes) => {
-    navigate('DeliveryDetailsScreen', {deliveryId: item.id});
+  const onItemPressed = (itemId: DeliveryListItemTypes) => {
+    navigate('DeliveryDetailsScreen', {deliveryId: itemId});
   };
   const getStatusColor = (value?: 'idle' | 'delivered' | 'undelivered') => ({
     color:
@@ -95,9 +95,10 @@ const DeliveriesScreen = () => {
               ? deliveriesList?.map((i: DeliveryListItemTypes, idx: number) => {
                   return (
                     <Pressable
+                      testID={'presssable' + idx}
                       key={idx}
                       style={itemContainerPressable}
-                      onPress={() => onItemPressed(i)}>
+                      onPress={() => onItemPressed(i.id)}>
                       <Card
                         row
                         style={[
