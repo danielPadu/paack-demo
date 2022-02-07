@@ -45,7 +45,7 @@ Use a global state library (Redux, MobX or your choice) to manage the applicatio
    >npm run ios-dev
 
 # Project structure 
-![plot](./Screenshot 2022-02-07 at 15.19.02.png)
+![Screenshot](Screenshot_2022-02-07_at_15.19.02.png)
 
 -only development mode implementations (debug.keystore)
 - implemented react navigation 6 stack navigator (referenced) in appFiles/navigation folder
@@ -62,4 +62,4 @@ Use a global state library (Redux, MobX or your choice) to manage the applicatio
      >npm run test
      >npm run coverage
 
-     ![plot](./Screenshot 2022-02-07 at 19.58.38.png)
+![Screenshot](Screenshot_2022-02-07_at_19.58.38.png)
