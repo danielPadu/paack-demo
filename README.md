@@ -36,21 +36,21 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 - android starting up:
  >``` npm run android ```  (If is windows environment use >``` npm run android-win``` )
 - ios starting up:  open paack-demo/ios/paackdemo.xcworkspace after running:
- >```cd ios ```
- >``` pod install ```
+     >```cd ios ```
+     >``` pod install ```
  
  - let xCode index files, if is M1 Apple chip machine
   exclude arm64 architectures for Any IOS Simulator SDK in Build Settings options and 
   run paackdemo/paackdemo.dev schemas with Debug Build Configuration
  - on consecutive runs you coud start it even with 
-   >``` npm run ios-dev ```
+     >``` npm run ios-dev ```
 
 # Project structure 
 ![Screenshot](Screenshot_2022-02-07_at_15.19.02.png)
 
 - only development mode implementations (debug.keystore)
-- [x] implemented react navigation 6 stack navigator (referenced) in appFiles/navigation folder
-- [x]implemented 3 screens in  appFiles/screens:
+- [x] implemented react navigation @6 stack navigator (referenced) in appFiles/navigation folder
+- [x] implemented 3 screens in  appFiles/screens:
     - [x] IntroScreen with network connectivity and location permissions checks
     - [x] DeliveriesScreen with deliveries list render
     - [x] DeliveryDetailsScreen with delivery details and functionalities for making delivery active , changing delivery status
@@ -60,7 +60,6 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 - [x] implemented unit tests and wrote tests in __tests__ folder. 
     For automated tests, run in root folder console/terminal :
      >```npm run test```
-
      >```npm run coverage -- -u```
 
 ![Screenshot](Screenshot_2022-02-07_at_19.58.38.png)
