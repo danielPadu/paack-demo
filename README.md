@@ -49,18 +49,18 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 ![Screenshot](Screenshot_2022-02-07_at_15.19.02.png)
 
 - only development mode implementations (debug.keystore)
-- implemented react navigation 6 stack navigator (referenced) in appFiles/navigation folder
-- implemented 3 screens in  appFiles/screens:
-      * IntroScreen with network connectivity and location permissions checks
-      * DeliveriesScreen with deliveries list render
-      * DeliveryDetailsScreen with delivery details and functionalities for making delivery active , changing delivery status
-- implemented 2 modals components (Loading modal that blocks entire screen while active and InfoModal for outputting messages) 
-  and 2 react components in appFiles/UI/components
-- implemented react-native redux with 2 reducers (appReducer and modalsReducer) and redux-persist in appFiles/appStore
-- implemented rest api deliveryService in appFiles/services/res using axiosInstance with interceptors and rxjs observable for delivering only response necessary at client-side component
-- implemented unit tests and wrote tests in __tests__ folder. 
+- [x] implemented react navigation 6 stack navigator (referenced) in appFiles/navigation folder
+- [x]implemented 3 screens in  appFiles/screens:
+    - [x] IntroScreen with network connectivity and location permissions checks
+    - [x] DeliveriesScreen with deliveries list render
+    - [x] DeliveryDetailsScreen with delivery details and functionalities for making delivery active , changing delivery status
+- [x] implemented 2 modals components (Loading modal that blocks entire screen while active and InfoModal for outputting messages) and 2 react components in appFiles/UI/components
+- [x] implemented react-native redux with 2 reducers (appReducer and modalsReducer) and redux-persist in appFiles/appStore
+- [x] implemented rest api deliveryService in appFiles/services/res using axiosInstance with interceptors and rxjs observable for delivering only response necessary at client-side component
+- [x] implemented unit tests and wrote tests in __tests__ folder. 
     For automated tests, run in root folder console/terminal :
      >```npm run test```
+
      >```npm run coverage -- -u```
 
 ![Screenshot](Screenshot_2022-02-07_at_19.58.38.png)
