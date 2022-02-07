@@ -33,7 +33,7 @@ This demo does not handle UI and aesthetics of the application. (This solution w
  -for running project assure environment complies with https://reactnative.dev/docs/environment-setup React Native CLI Quickstart tab (including setting JAVA_HOME and ANDROID_SDK_HOME variables)
 - in root folder of project(paack-demo/) run in terminal/console:
  >``` npm i --save --legacy-peer-deps ``` (installing project's dependencies)
--android starting up:
+- android starting up:
  >``` npm run android ```  (If is windows environment use >``` npm run android-win``` )
 - ios starting up:  open paack-demo/ios/paackdemo.xcworkspace after running:
  >```cd ios ```
@@ -59,7 +59,7 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 - implemented react-native redux with 2 reducers (appReducer and modalsReducer) and redux-persist in appFiles/appStore
 - implemented rest api deliveryService in appFiles/services/res using axiosInstance with interceptors and rxjs observable for delivering only response necessary at client-side component
 - implemented unit tests and wrote tests in __tests__ folder. 
-    For running tests in root folder console/terminal :
+    For automated tests, run in root folder console/terminal :
      >```npm run test```
      >```npm run coverage -- -u```
 
