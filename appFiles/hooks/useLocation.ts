@@ -7,11 +7,11 @@ import {
   LocationPayloadType,
   setAllowGeolocation,
 } from '../appStore/actions/appActions';
-import {ResolveArrayThunks, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const useLocation = (currentPosition?: any) => {
   const [location, setLocation] = useState(currentPosition);
-  const [permissionResult, setPermissionResult] = useState<String>();
+  const [permissionResult, setPermissionResult] = useState<String>('');
   const dispatch = useDispatch();
   // TODO: AppState in the future should be generalized as the hook, then we can call anywhere
   const appState = useRef(AppState.currentState);

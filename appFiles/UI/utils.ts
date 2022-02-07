@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react';
-import {Dimensions, PixelRatio, Platform, ScaledSize} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+/* eslint-disable no-console */
 import NetInfo from '@react-native-community/netinfo';
+import {Dimensions, PixelRatio, Platform} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import util from 'util';
 const log = (obj: unknown) =>
   console.log(
@@ -16,8 +16,8 @@ const log = (obj: unknown) =>
 
 const hasNotch = DeviceInfo?.hasNotch();
 const isIOS = Platform.OS === 'ios';
-let screenWidth = Dimensions.get('window').width;
-let screenHeight =
+const screenWidth = Dimensions.get('window').width;
+const screenHeight =
   Platform.OS === 'ios'
     ? Dimensions.get('window').height
     : require('react-native-extra-dimensions-android').get(
@@ -41,53 +41,6 @@ const heightPercentageToDP = (hp: number | string) => {
 };
 const aspectRatio = heightPercentageToDP('100%') / widthPercentageToDP('100%');
 
-/**
- * Event listener function that detects orientation change (every time it occurs) and triggers
- * screen rerendering. It does that, by changing the state of the screen where the function is
- * called. State changing occurs for a new state variable with the name 'orientation' that will
- * always hold the current value of the orientation after the 1st orientation change.
- * Invoke it inside the screen's constructor or in componentDidMount lifecycle method.
- * @param {object} that Screen's class components this variable. The function needs it to
- *                      invoke setState method and trigger screen rerender (this.setState()).
- */
-const ListenOrientationChangeHook = () => {
-  const [orientation, setOrientation] = useState('portrait');
-
-  const updateOrientation = (newDimensions: {
-    window: ScaledSize;
-    screen: ScaledSize;
-  }) => {
-    // Retrieve and save new dimensions
-    screenWidth = newDimensions.window.width;
-    screenHeight = newDimensions.window.height;
-
-    // Trigger screen's rerender with a callback passed trough function of the orientation variable
-    setOrientation(screenWidth < screenHeight ? 'portrait' : 'landscape');
-  };
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener(
-      'change',
-      updateOrientation,
-    );
-    return () => subscription?.remove?.();
-  }, []);
-
-  return {orientation};
-};
-
-/**
- * Uppercasing first character of string
- * @param  {string} stringValue
- */
-const capitalizeString = (stringValue: string) => {
-  if (typeof stringValue === 'string' && stringValue?.trim()?.length > 0) {
-    return (
-      stringValue?.trim()?.charAt(0)?.toUpperCase() +
-      stringValue?.trim()?.slice(1)
-    );
-  }
-  return stringValue;
-};
 const NetworkUtils = () =>
   NetInfo?.fetch?.()
     ?.then(response => response)
@@ -97,11 +50,9 @@ export {
   screenHeight,
   hasNotch,
   isIOS,
-  capitalizeString,
   NetworkUtils,
   log,
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
   aspectRatio as a,
-  ListenOrientationChangeHook,
 };

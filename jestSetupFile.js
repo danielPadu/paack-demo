@@ -7,6 +7,7 @@ import mockRNDeviceInfo from 'react-native-device-info/jest/react-native-device-
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js';
 import {useSelector, useDispatch} from 'react-redux';
 import {defaultReducer} from './appFiles/appStore/reducers/default/index';
+
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),

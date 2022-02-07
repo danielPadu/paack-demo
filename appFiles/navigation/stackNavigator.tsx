@@ -61,7 +61,6 @@ const AppContainer = () => {
           const previousActiveRoute = activeRouteRef.current;
           const currentRoute = getActiveRouteName(state);
           if (previousActiveRoute !== activeRouteRef.current) {
-            console.log('NavigationContainer active: -> ', currentRoute);
             dispatch(setAppActiveScreen(currentRoute?.name));
           }
           // Save the current route name for later comparision

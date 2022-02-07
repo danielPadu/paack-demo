@@ -5,6 +5,7 @@ import renderer, {
   ReactTestRenderer,
   ReactTestRendererJSON,
 } from 'react-test-renderer';
+import {navigate} from '../appFiles/navigation/RootNavigation';
 import DeliveriesScreen from '../appFiles/screens/DeliveriesScreen';
 import {ComponentWrappers, mockedStore} from '../__mocks__/ComponentWrappers';
 let store;
@@ -52,11 +53,21 @@ describe('checking DeliveriesScreen component', () => {
             </ComponentWrappers>,
           )
           .toJSON();
-        const {findByProps} = component;
+        const {findByProps, getByTestId} = component;
         const text = findByProps('Deliveries List');
+
+        fireEvent.press(getByTestId('presssable0'), '1');
+        expect(jest.fn()).toHaveBeenCalledWith('1');
 
         await waitFor(() => expect(text).toBeTruthy());
         await waitFor(() => expect(component).toHaveProperty('wrapperStyle'));
+        act(() => {
+          component.setApiRequest(true);
+        });
+        expect(navigate('Deliveries')).toBeFalsy();
+        expect(
+          navigate('DeliveryDetailsScreen', {deliveryId: '1'}),
+        ).toBeUndefined();
       });
       await afterEach(() => {
         // cleanup on exiting

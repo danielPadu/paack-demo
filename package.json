@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "android": "cd android && ./gradlew clean && cd .. && react-native run-android",
+    "android-win": "cd android && gradlew clean && cd.. && react-native run-android",
     "ios": "react-native run-ios",
     "ios-dev": "react-native run-ios --scheme \"paackdemo.dev\"",
+    "clean-xcode": "rm -rf ~/Library/Developer/Xcode/DerivedData",
     "start": "react-native start",
-    "test": "jest --no-cache",
+    "test": "jest --no-cache '-u'",
     "coverage": "jest --no-cache  '--coverage'",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
@@ -83,10 +85,10 @@
     "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    }, 
+    },
     "transformIgnorePatterns": [
       "node_modules/?!(react-native-ui-lib)"
-        ],
+    ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
     ],
