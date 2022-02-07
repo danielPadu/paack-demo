@@ -14,9 +14,9 @@ status. Default status is “idle”.
 2. Delivery details - An endpoint to get the detail of a specific delivery. Containing the customer info and the current delivery status.
 Default status is “idle”.
 3. Finish delivery - An endpoint to mark a delivery as delivered or undelivered. You have to define the following parameters:
-  * status: To indicate if we want to mark the delivery as delivered or undelivered.
-  * latitude: The latitude from the driver device.
-  * longitude: The longitude from the driver device.
+                    * status: To indicate if we want to mark the delivery as delivered or undelivered.
+                    * latitude: The latitude from the driver device.
+                    * longitude: The longitude from the driver device.
 
 This demo does not handle UI and aesthetics of the application. (This solution will be evaluated based on its code decision and architectural design)
 
@@ -32,27 +32,28 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 # Running the project:
  -for running project assure environment complies with https://reactnative.dev/docs/environment-setup React Native CLI Quickstart tab (including setting JAVA_HOME and ANDROID_SDK_HOME variables)
 - in root folder of project(paack-demo/) run in terminal/console:
- >``` npm i --save --legacy-peer-deps ``` (installing project's dependencies)
+ >  ``` npm i --save --legacy-peer-deps ``` (installing project's dependencies)
 - android starting up:
- >``` npm run android ```  (If is windows environment use >``` npm run android-win``` )
+ >  ``` npm run android ```  (If is windows environment use >``` npm run android-win``` )
 - ios starting up:  open paack-demo/ios/paackdemo.xcworkspace after running:
-     >```cd ios ```
-     >``` pod install ```
+     >  ```cd ios ```
+
+     >  ``` pod install ```
  
  - let xCode index files, if is M1 Apple chip machine
   exclude arm64 architectures for Any IOS Simulator SDK in Build Settings options and 
   run paackdemo/paackdemo.dev schemas with Debug Build Configuration
  - on consecutive runs you coud start it even with 
-     >``` npm run ios-dev ```
+     >  ``` npm run ios-dev ```
 
 # Project structure 
 ![Screenshot](/__mocks__/Screenshot_2022-02-07_at_15.19.02.png)
 
 - only development mode implementations (debug.keystore)
-- [x] implemented multienvironment suport ading env files for 
-        - [x] * .env.development
-        - [ ] * .env.staging
-        - [ ] * .env.production
+- [x] implemented multienvironment suport ading env files for: 
+    - [x] * .env.development
+    - [ ] * .env.staging
+    - [ ] * .env.production
 - [x] implemented react navigation @6 stack navigator (referenced) in appFiles/navigation folder
 - [x] implemented 3 screens in  appFiles/screens:
     - [x] IntroScreen with network connectivity and location permissions checks
@@ -63,7 +64,8 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 - [x] implemented rest api deliveryService in appFiles/services/res using axiosInstance with interceptors and rxjs observable for delivering only response necessary at client-side component
 - [x] implemented unit tests and wrote ```__tests__``` in __tests__ folder. 
     For automated tests, run in root folder console/terminal :
-     >```npm run test```
-     >```npm run coverage -- -u```
+     >  ```npm run test```
+
+     >  ```npm run coverage -- -u```
 
 ![Screenshot](/__mocks__/Screenshot_2022-02-07_at_19.58.38.png)
