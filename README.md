@@ -59,7 +59,7 @@ This demo does not handle UI and aesthetics of the application. (This solution w
     - [x] DeliveryDetailsScreen with delivery details and functionalities for making delivery active , changing delivery status
 - [x] implemented 2 modals components (Loading modal that blocks entire screen while active and InfoModal for outputting messages) and 2 react components in appFiles/UI/components
 - [x] implemented react-native redux with 2 reducers (appReducer and modalsReducer) and redux-persist in appFiles/appStore
-- [x] implemented rest api deliveryService in appFiles/services/res using axiosInstance with interceptors and rxjs observable for delivering only response necessary at client-side component
+- [x] implemented rest api deliveryService in appFiles/services/res using axiosInstance with interceptors and rxjs observable for delivering only response necessary at client-side consumer
 - [x] implemented unit tests and wrote tests in  ```__tests__``` folder. 
     For automated tests, run in root folder console/terminal :
      >  ```npm run test```
