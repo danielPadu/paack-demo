@@ -46,6 +46,7 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 
 # Project structure and content
 <br>
+
 ![Screenshot](Screenshot_2022-02-07_at_15.19.02.png)
 
 - only development mode implementations (debug.keystore)
@@ -67,4 +68,5 @@ This demo does not handle UI and aesthetics of the application. (This solution w
 
      >  ```npm run coverage -- -u```
 <br>
+
 ![Screenshot](Screenshot_2022-02-07_at_19.58.38.png)
