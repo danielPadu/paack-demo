@@ -65,5 +65,6 @@ This demo does not handle UI and aesthetics of the application. (This solution w
      >  ```npm run test```
 
      >  ```npm run coverage -- -u```
+<br>
 
   ![Screenshot](assets/images/Screenshot_2022-02-07_at_19.58.38.png)
